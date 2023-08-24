@@ -1,0 +1,31 @@
+branch_route[1] {
+  if ($avp(identity) != null) {
+    remove_hf("Identity");
+    append_hf("Identity: $avp(identity)\r\n");
+  }
+  
+  if ($avp(pai) != null) {
+    # Modification by ZellaTech found at https://github.com/ZellaTech/transnexus-opensips-kazoo-cid
+    # Extract the name part with the surrounding quotes
+    $var(pai_name) = $(avp(pai){nameaddr.name});
+    
+    # Remove the surrounding quotes using substr
+    $var(pai_name) = $(var(pai_name){s.substr,1,-1});
+    
+    # Check if it starts with [V]
+    if ($var(pai_name) =~ "^\[V\]") {
+      # Split the string at the ] character
+      $var(prefix) = $(var(pai_name){s.select,0,]});
+      $var(suffix) = $(var(pai_name){s.select,1,]});
+      
+      # Construct the new string with ]- in between
+      $var(pai_name) = $var(prefix) + "]-" + $var(suffix);
+    }
+    
+    # Construct the modified P-Asserted-Identity header
+    $var(modified_pai) = "\"" + $var(pai_name) + "\" <" + $(avp(pai){nameaddr.uri}) + ">";
+    
+    remove_hf("P-Asserted-Identity");
+    append_hf("P-Asserted-Identity: $var(modified_pai)\r\n");
+  }
+}
