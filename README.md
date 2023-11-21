@@ -6,12 +6,13 @@ To address this concern, we've modified the OpenSIPS configuration on the in-lin
 
 ## Options
 
-We have two options:
+We have three options:
 
 1. **Option 1:** Pass the name as `[V]-NAME`, which will be displayed as `"V-NAME"` on the Kazoo side.
 2. **Option 2:** Pass the name as `ツ-NAME`, displayed as `"ツ-NAME"` on the Kazoo side.
+3. **Option 3:** Pass the name as `NAME`, displayed as `"NAME"` on the Kazoo side for all verified calls, and pass the name as `POSSIBLE SPAM`, displayed as `"POSSIBLE SPAM"` on the Kazoo side for all unsigned calls.
 
-Both options are included in this repository, labeled as "V-config" and "Smile-config."
+All options are included in this repository, labeled as "V-config", "Smile-config" and PossibleSpam-config."
 
 ## Implementation Steps
 
